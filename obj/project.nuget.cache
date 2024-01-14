@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "COfjLbUK5+OA4GvWq5vmdkYOgOVVV+8R8gphHwFnMNRQBQzkcmpcTpUXkMPuOQXUiWR7W4YgHKMakq2imqyURw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\DGO21\\source\\repos\\MC17007\\MagicVill\\MagicVill\\MagicVill.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\DGO21\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
+    "C:\\Users\\DGO21\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\DGO21\\.nuget\\packages\\swashbuckle.aspnetcore\\6.5.0\\swashbuckle.aspnetcore.6.5.0.nupkg.sha512",
+    "C:\\Users\\DGO21\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.5.0\\swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512",
+    "C:\\Users\\DGO21\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.5.0\\swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",
+    "C:\\Users\\DGO21\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.5.0\\swashbuckle.aspnetcore.swaggerui.6.5.0.nupkg.sha512"
+  ],
+  "logs": []
+}
