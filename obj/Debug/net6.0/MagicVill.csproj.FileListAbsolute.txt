@@ -31,3 +31,7 @@ C:\Users\DGO21\source\repos\MC17007\MagicVill\MagicVill\obj\Debug\net6.0\refint\
 C:\Users\DGO21\source\repos\MC17007\MagicVill\MagicVill\obj\Debug\net6.0\MagicVill.pdb
 C:\Users\DGO21\source\repos\MC17007\MagicVill\MagicVill\obj\Debug\net6.0\MagicVill.genruntimeconfig.cache
 C:\Users\DGO21\source\repos\MC17007\MagicVill\MagicVill\obj\Debug\net6.0\ref\MagicVill.dll
+C:\Users\DGO21\source\repos\MC17007\MagicVill\MagicVill\bin\Debug\net6.0\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\DGO21\source\repos\MC17007\MagicVill\MagicVill\bin\Debug\net6.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\DGO21\source\repos\MC17007\MagicVill\MagicVill\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\DGO21\source\repos\MC17007\MagicVill\MagicVill\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll
