@@ -7,7 +7,7 @@ namespace MagicVill.Datos
     {
         public AplicationDBContext(DbContextOptions<AplicationDBContext> options): base(options)
         {
-
+            //
         }
         public DbSet<Vill> villa {  get; set; }
     }
