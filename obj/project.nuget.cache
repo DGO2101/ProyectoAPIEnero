@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "CI9RhFYE6cvusq6fSILwOUzo8N24Tr3Eqp1YKaxLPCZ8bzzMZyliObh++owSiJhS6II+uuzxnsV3AFuTLbV8Og==",
+  "dgSpecHash": "p6fKBGIHWam1cJO/ZxMGE8R0x7WAFp5sq8XepB9qRpkkOG0888BtFjxNEKjJdohOW8B2Qrp8z+eezvqFYkutMw==",
   "success": true,
   "projectFilePath": "C:\\Users\\DGO21\\source\\repos\\MC17007\\MagicVill\\MagicVill\\MagicVill.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\DGO21\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
+    "C:\\Users\\DGO21\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
     "C:\\Users\\DGO21\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\DGO21\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\6.0.26\\microsoft.aspnetcore.jsonpatch.6.0.26.nupkg.sha512",
     "C:\\Users\\DGO21\\.nuget\\packages\\microsoft.aspnetcore.mvc.newtonsoftjson\\6.0.26\\microsoft.aspnetcore.mvc.newtonsoftjson.6.0.26.nupkg.sha512",
