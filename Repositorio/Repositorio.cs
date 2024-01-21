@@ -1,17 +1,30 @@
 ﻿using MagicVill.Datos;
 using MagicVill.Repositorio.IRepositorio;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 
 namespace MagicVill.Repositorio
 {
     public class Repositorio<T> : IRepositorio<T> where T : class
     {
-        private readonly AplicationDBContext _dbContext;
+        private readonly AplicationDBContext _dbContext;//se inyecta el DBContext para trabajar desde ahí y no desde el controlador
         internal DbSet<T> dbset;
-        public Task crear(T entidad)
+        public Repositorio(AplicationDBContext db)
         {
-            throw new NotImplementedException();
+            _dbContext = db;
+            this.dbset = _dbContext.Set<T>();
+        }
+        public async Task crear(T entidad)
+        {
+            await dbset.AddAsync(entidad);
+            await Gravar();
+        }
+
+        public async Task Gravar()
+        {
+            await _dbContext.SaveChangesAsync();
         }
 
         public Task<T> Gravar(T entidad)
@@ -19,17 +32,28 @@ namespace MagicVill.Repositorio
             throw new NotImplementedException();
         }
 
-        public Task<T> Obtener(Expression<Func<T, bool>>? filtro = null, bool tracked = true)
+        public async Task<T> Obtener(Expression<Func<T, bool>>? filtro = null, bool tracked = true)
         {
-            throw new NotImplementedException();
+            IQueryable<T> query = dbset;
+            if(!tracked) { query.AsNoTracking(); }
+            if(filtro != null) {  query = query.Where(filtro); }
+            return await query.FirstOrDefaultAsync();
         }
 
-        public Task<List<T>> ObtenerTodos(Expression<Func<T, bool>>? filtro = null)
+        public async Task<List<T>> ObtenerTodos(Expression<Func<T, bool>>? filtro = null)
         {
-            throw new NotImplementedException();
+            IQueryable<T> query = dbset;
+            if (filtro != null) { query = query.Where(filtro); }
+            return await query.ToListAsync();
         }
 
-        public Task<T> Remove(T entidad)
+        public async Task Remove(T entidad)
+        {
+            dbset.Remove(entidad);
+            await Gravar();
+        }
+
+        Task<T> IRepositorio<T>.Remove(T entidad)
         {
             throw new NotImplementedException();
         }
