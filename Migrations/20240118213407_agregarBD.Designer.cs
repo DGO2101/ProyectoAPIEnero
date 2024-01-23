@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MagicVill.Migrations
 {
-    [DbContext(typeof(AplicationDBContext))]
+    [DbContext(typeof(_villaRepo))]
     [Migration("20240118213407_agregarBD")]
     partial class agregarBD
     {

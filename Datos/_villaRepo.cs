@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MagicVill.Datos
 {
-    public class AplicationDBContext: DbContext 
+    public class _villaRepo: DbContext 
     {
-        public AplicationDBContext(DbContextOptions<AplicationDBContext> options): base(options)
+        public _villaRepo(DbContextOptions<_villaRepo> options): base(options)
         {
             //
         }

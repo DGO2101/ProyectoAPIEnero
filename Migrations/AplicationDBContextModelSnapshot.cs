@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MagicVill.Migrations
 {
-    [DbContext(typeof(AplicationDBContext))]
+    [DbContext(typeof(_villaRepo))]
     partial class AplicationDBContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

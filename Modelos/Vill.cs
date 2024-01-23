@@ -5,7 +5,7 @@ namespace MagicVill.Modelos
 {
     public class Vill
     {
-        [Key]
+        [Key] // sirve para que se vaya aumentando de uno a uno 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         
         public int id {  get; set; }

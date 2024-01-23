@@ -2,6 +2,7 @@
 using MagicVill.Datos;
 using MagicVill.Modelos;
 using MagicVill.Modelos.DTO;
+using MagicVill.Repositorio.IRepositorio;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -14,12 +15,13 @@ namespace MagicVill.Controllers
     public class VillController : ControllerBase
     {
         private readonly ILogger<VillController> _logger;
-        private readonly AplicationDBContext _context;
+        //private readonly AplicationDBContext _context; (se elimina porque ya no se trabajara directamente con la base de datos sino que los datos pasaran por medio de la interfaz primero 
+        private readonly IVillaRepositorio _villaRepo;
         private readonly IMapper _mapper; //se inyecta el servicio en el controlador como se ha hecho en las anteriores lineas de codigo
-        public VillController(ILogger<VillController> logger, AplicationDBContext context, IMapper mapper)
+        public VillController(ILogger<VillController> logger, IVillaRepositorio villaRepo, IMapper mapper)
         {
             _logger = logger;
-            _context = context;
+            _villaRepo = villaRepo;
             _mapper = mapper;
         }
         [HttpGet]
@@ -27,21 +29,22 @@ namespace MagicVill.Controllers
         public async Task<ActionResult<IEnumerable<VillDTO>>> GetVills()
         {
             _logger.LogInformation("obtener las villas");
-            IEnumerable<Vill> villaList = await _context.villa.ToListAsync();
+            IEnumerable<Vill> villaList = await _villaRepo.ObtenerTodos();
             return Ok(_mapper.Map<IEnumerable<VillDTO>>(villaList));
         }
+
         [HttpGet("id: int", Name = "GetVilla")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public async Task<ActionResult<VillDTO>> GetVill(int Id)
+        public async Task<ActionResult> GetVill(int Id)
         {
             if (Id == 0)
             {
-                _logger.LogError("error al traer villa con id: " +  Id);
+                _logger.LogError("error al traer villa con id: " + Id);
                 return BadRequest();
             }
-            var villa = await  _context.villa.FirstOrDefaultAsync(v => v.id == Id);
+            var villa = await _villaRepo.Obtener(v => v.id == Id);
             //var villa = VillStore.VillList.FirstOrDefault(v => v.id == Id);
             if (villa == null)
             {
@@ -60,7 +63,7 @@ namespace MagicVill.Controllers
             {
                 return BadRequest(ModelState);
             }
-            if (await _context.villa.FirstOrDefaultAsync(v => v.name.ToLower() == creardto.name.ToLower()) != null)
+            if (await _villaRepo.Obtener(v => v.name.ToLower() == creardto.name.ToLower()) != null)
             {
                 ModelState.AddModelError("NombreExiste", "La villa con ese nombre ya existe");
                 return BadRequest(ModelState);
@@ -86,8 +89,7 @@ namespace MagicVill.Controllers
             //    metrosCudrados = creardto.metrosCuadrados,
             //    amenidad = creardto.amenidad,
             //};
-            await _context.villa.AddAsync(modelo);
-            await _context.SaveChangesAsync();
+            await _villaRepo.Crear(modelo);
             return CreatedAtRoute("GetVill", new { Id = modelo.id, modelo });//no se si estoy invocando al parametro correctamente
         }
 
@@ -101,10 +103,9 @@ namespace MagicVill.Controllers
             {
                 return BadRequest();
             }
-            var villa = await _context.villa.FirstOrDefaultAsync(v => v.id == id);
+            var villa = await _villaRepo.Obtener(v => v.id == id);
             if (villa == null) { return NotFound(); }
-            _context.villa.Remove(villa);
-            await _context.SaveChangesAsync();
+            await _villaRepo.Remover(villa);
             return NoContent();
         }
 
@@ -113,7 +114,7 @@ namespace MagicVill.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> UpdateVill(int id, [FromBody] VillActualizarDTO actualizardto)
         {
-            if(actualizardto == null || id != actualizardto.id) { return BadRequest(); }
+            if (actualizardto == null || id != actualizardto.id) { return BadRequest(); }
             Vill modelo = _mapper.Map<Vill>(actualizardto); // hace lo que las lineas 118-128 hacen
             //Vill modelo = new()
             //{
@@ -126,8 +127,7 @@ namespace MagicVill.Controllers
             //    metrosCudrados = actualizardto.metrosCuadrados,
             //    amenidad = actualizardto.amenidad,
             //};
-            _context.villa.Update(modelo);
-            await _context.SaveChangesAsync();
+            _villaRepo.Actualizar(modelo);
             return NoContent();
         }
 
@@ -138,7 +138,7 @@ namespace MagicVill.Controllers
         public async Task<IActionResult> UpdatePartialVill(int Id, JsonPatchDocument<VillActualizarDTO> patchDTO)
         {
             if (patchDTO == null || Id == 0) { return BadRequest(); }
-            var villa = await _context.villa.AsNoTracking().FirstOrDefaultAsync(v => v.id == Id);
+            var villa = await _villaRepo.Obtener(v => v.id == Id, tracked: false);
             VillActualizarDTO actualizardto = _mapper.Map<VillActualizarDTO>(villa);
             //VillActualizarDTO actualizardto = new()
             //{
@@ -151,9 +151,9 @@ namespace MagicVill.Controllers
             //    metrosCuadrados = villa.metrosCudrados,
             //    amenidad = villa.amenidad,
             //};
-            if(villa == null) { return BadRequest(); }
+            if (villa == null) { return BadRequest(); }
             patchDTO.ApplyTo(actualizardto, ModelState);
-            if(!ModelState.IsValid) { return BadRequest(ModelState); }
+            if (!ModelState.IsValid) { return BadRequest(ModelState); }
 
             Vill modelo = _mapper.Map<Vill>(actualizardto);
 
@@ -168,8 +168,7 @@ namespace MagicVill.Controllers
             //    metrosCudrados = actualizardto.metrosCuadrados,
             //    amenidad = actualizardto.amenidad
             //};
-            _context.villa.Update(modelo);
-            await _context.SaveChangesAsync();
+            _villaRepo.Actualizar(modelo);
             return NoContent();
         }
         //para usar el metodo patch se ejecuta el programa y despues se elimina la parte de "operation type"
